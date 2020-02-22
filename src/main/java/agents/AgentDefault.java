@@ -2,9 +2,8 @@ package agents;
 
 import tasks.AgentTask;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class AgentDefault implements Agent {
 
@@ -16,14 +15,24 @@ public class AgentDefault implements Agent {
     private String id;
     private Set<Skills> skills;
     private AgentTask currentTask;
+    private LocalDateTime timeTaskStarted;
 
     private AgentDefault(final Set<Skills> skills){
         id = UUID.randomUUID().toString();
         this.skills = skills;
+        timeTaskStarted = LocalDateTime.now();
     }
 
-    public static Agent create(final Set<Skills> skills) {
-        return new AgentDefault(skills);
+    // Varargs seemed a better choice than passing in a set of skills
+    // However, if performance of varargs is a concern, then we can require a set of skills
+    // or have multiple creation signatures.
+    public static Agent create(final Skills firstSkill, final Skills... restOfSkills) {
+        Set<Skills> agentSkills = new HashSet<>();
+        agentSkills.add(firstSkill);
+        for (Skills s : restOfSkills) {
+            agentSkills.add(s);
+        }
+        return new AgentDefault(agentSkills);
     }
 
     @Override
@@ -33,12 +42,21 @@ public class AgentDefault implements Agent {
 
     @Override
     public boolean canHandle(final AgentTask task) {
-        Set<Skills> required = task.requiredSkills();
-        return this.skills.containsAll(required);
+        boolean acceptedTask = false;
+        if (currentTask == null ) {
+            Set<Skills> required = task.requiredSkills();
+            if (skills.containsAll(required)) {
+                currentTask = task;
+                acceptedTask = true;
+            }
+        }
+        return acceptedTask;
+    }
+    
+    @Override
+    public LocalDateTime getTaskStartTime() {
+        return timeTaskStarted;
     }
 
-    @Override
-    public boolean assign(AgentTask task) {
-        return false;
-    }
+
 }

@@ -7,10 +7,10 @@ import tasks.AgentTask;
 import tasks.AgentTaskDefault;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestAgent {
 
@@ -18,11 +18,33 @@ public class TestAgent {
     public void givenTask_whenAgentHasAppropriateSkills_thenReturnTrue() {
         Set<AgentDefault.Skills> skills = new HashSet<>();
         skills.add(AgentDefault.Skills.SKILL1);
+        AgentTask task = AgentTaskDefault.create(skills, AgentTaskDefault.Priority.HIGH);
+
+        Agent a = AgentDefault.create(AgentDefault.Skills.SKILL1);
+        assertTrue(a.canHandle(task));
+
+        Agent b = AgentDefault.create(AgentDefault.Skills.SKILL2, AgentDefault.Skills.SKILL1);
+        assertTrue(b.canHandle(task));
+    }
+
+    @Test
+    public void givenTask_whenAgentLacksAppropriateSkills_thenReturnFalse() {
+        Set<AgentDefault.Skills> skills = new HashSet<>();
+        skills.add(AgentDefault.Skills.SKILL1);
         AgentTask t = AgentTaskDefault.create(skills, AgentTaskDefault.Priority.HIGH);
 
-        Set<AgentDefault.Skills> agentSkills = new HashSet<>();
-        agentSkills.add(AgentDefault.Skills.SKILL1);
-        Agent a = AgentDefault.create(agentSkills);
-        assertTrue(a.canHandle(t));
+        Agent a = AgentDefault.create(AgentDefault.Skills.SKILL2);
+        assertFalse(a.canHandle(t));
+    }
+
+    @Test
+    public void givenAgentWithTask_whenAskedToPerformAnotherTask_thenDeclineTask() {
+        Set<AgentDefault.Skills> skills = new HashSet<>();
+        skills.add(AgentDefault.Skills.SKILL1);
+        AgentTask task = AgentTaskDefault.create(skills, AgentTaskDefault.Priority.HIGH);
+
+        Agent a = AgentDefault.create(AgentDefault.Skills.SKILL1);
+        assertTrue(a.canHandle(task));
+        assertFalse(a.canHandle(task));
     }
 }
