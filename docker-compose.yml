@@ -1,0 +1,11 @@
+version: '3.7'
+
+# docker run -p 8080:8080 knewsom/ffn
+
+services:
+    cfna:
+        image: knewsom/ffnchallenge
+#        container_name: ffn
+        ports: 
+            - "8080:8080"
+
