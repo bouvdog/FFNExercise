@@ -21,6 +21,7 @@ public class TestAgent {
         AgentTask t = AgentTaskDefault.create(skills, AgentTaskDefault.Priority.HIGH);
 
         Set<AgentDefault.Skills> agentSkills = new HashSet<>();
+        agentSkills.add(AgentDefault.Skills.SKILL1);
         Agent a = AgentDefault.create(agentSkills);
         assertTrue(a.canHandle(t));
     }

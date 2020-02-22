@@ -32,8 +32,9 @@ public class AgentDefault implements Agent {
     }
 
     @Override
-    public boolean canHandle(AgentTask task) {
-        return false;
+    public boolean canHandle(final AgentTask task) {
+        Set<Skills> required = task.requiredSkills();
+        return this.skills.containsAll(required);
     }
 
     @Override

@@ -23,4 +23,9 @@ public class AgentTaskDefault implements AgentTask {
         return new AgentTaskDefault(skills, p);
     }
 
+    @Override
+    public Set<AgentDefault.Skills> requiredSkills() {
+        return skills;
+    }
+
 }
