@@ -1,10 +1,20 @@
 package agents;
 
 import tasks.AgentTask;
+import tasks.AgentTaskDefault;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+// There isn't much business logic in this class. It is almost a POJO.
+// The distributor determines which agent is appropriate for an AgentTask and then
+// assigns (tells) the agent to accept the task.
+// A principle for classes is 'Tell, don't ask' but there is a lot of 'asking' methods in this 'class'.
+//
+// However, if we think about a contact center, whether the agents have the skills to handle a request/task
+// isn't known to each agent. That is a property of the aggregated agents. Also, which agents are free and which
+// are busy is not known at the individual agent level. But the Distributor of tasks would know this because it
+// contains the aggregation of agents.
 public class AgentDefault implements Agent {
 
     // If a skill gains any responsibilities, then we can extract this enum and turn it into a class.
@@ -20,11 +30,10 @@ public class AgentDefault implements Agent {
     private AgentDefault(final Set<Skills> skills){
         id = UUID.randomUUID().toString();
         this.skills = skills;
-        timeTaskStarted = LocalDateTime.now();
     }
 
     // Varargs seemed a better choice than passing in a set of skills
-    // However, if performance of varargs is a concern, then we can require a set of skills
+    // However, if performance of varargs is a concern, then we can require a Set of skills
     // or have multiple creation signatures.
     public static Agent create(final Skills firstSkill, final Skills... restOfSkills) {
         Set<Skills> agentSkills = new HashSet<>();
@@ -36,26 +45,46 @@ public class AgentDefault implements Agent {
     }
 
     @Override
+    public Optional<AgentTask> assign(AgentTask task) {
+        AgentTask bumpedTask = null;
+        if (currentTask != null) {
+            bumpedTask = currentTask;
+        } else {
+            currentTask = task;
+        }
+        task.setAgentId(id);
+        timeTaskStarted = LocalDateTime.now();
+        return Optional.ofNullable(bumpedTask);
+    }
+
+    @Override
     public String getAgentHandle() {
         return null;
     }
 
     @Override
-    public boolean canHandle(final AgentTask task) {
-        boolean acceptedTask = false;
-        if (currentTask == null ) {
-            Set<Skills> required = task.requiredSkills();
-            if (skills.containsAll(required)) {
-                currentTask = task;
-                acceptedTask = true;
-            }
-        }
-        return acceptedTask;
+    public Set<Skills> whatAreAgentsSkills() {
+        return skills;
     }
-    
+
+
     @Override
     public LocalDateTime getTaskStartTime() {
         return timeTaskStarted;
+    }
+
+    @Override
+    public boolean isAvailable() {
+        if (currentTask == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public AgentTaskDefault.Priority currentTaskPriority() {
+        return currentTask.getPriority();
     }
 
 
