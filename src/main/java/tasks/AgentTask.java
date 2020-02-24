@@ -2,13 +2,13 @@ package tasks;
 
 import agents.AgentDefault;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-// The class was developed with the idea of having a Set of skills but this isn't straightforward to accomplish.
-// Given the amount of code that relies on the Set notion, we are doing to leave that in place and also have a
+// The class was developed with the idea of having a Set of skills but this isn't straightforward to accomplish with
+// sending the object to a REST POST endpoint.
+// Given the amount of code that relies on the Set notion, we are going to leave that in place and also have a
 // vanilla POJO pattern for the skills.
 public class AgentTask {
 

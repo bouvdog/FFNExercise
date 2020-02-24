@@ -1,10 +1,12 @@
 package agents;
 
 import tasks.AgentTask;
-import tasks.AgentTask;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 // There isn't much business logic in this class. It is almost a POJO.
 // The distributor determines which agent is appropriate for an AgentTask and then

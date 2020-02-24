@@ -12,11 +12,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import tasks.AgentTask;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

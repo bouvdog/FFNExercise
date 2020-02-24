@@ -6,7 +6,6 @@ import distribution.Distributor;
 import distribution.DistributorDefault;
 import org.junit.jupiter.api.Test;
 import tasks.AgentTask;
-import tasks.AgentTask;
 
 import java.util.HashSet;
 import java.util.List;
@@ -143,6 +142,8 @@ public class TestTaskDistributor {
         skillsForTask8.add(AgentDefault.Skills.SKILL2);
         AgentTask t8 = new AgentTask(skillsForTask8, AgentTask.Priority.LOW);
 
+        // want to leave some time between task assignments to make verifying bumping easier to verify. I did this
+        // verification using the debugger and not a unit test.
         assertTrue(dist.assign(t1));
         Thread.sleep(1000);
         assertTrue(dist.assign(t2));

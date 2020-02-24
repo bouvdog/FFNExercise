@@ -3,15 +3,14 @@ package testffnchallenge;
 import agents.AgentDefault;
 import distribution.DistributionController;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
-import tasks.AgentTask;
 import tasks.AgentTask;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TaskDistributorTest {
 

@@ -44,7 +44,7 @@ Nice to have:
 •	1 endpoint that will return the list of agents with the tasks currently assigned to them if any.
 
 ### Notes
-Running 'mvn test' from the command line may not work. 
+Running 'mvn test' from the command line should work
 
 This application is not thread-safe.
 
@@ -58,8 +58,18 @@ Bumped tasks are put into another collection and are reassigned when a task is c
 Most of the streams collect to a Collection but usually the filter reduces the steam to a single element. 
 This could be optimized.
 
-### Docker stuff
+I took a look at implementing code coverage with Jacoco but trying to get it work was consuming too much time.
+
+## External Build Dependencies
+Java 8
+Maven 3.6.3  
+Docker for Windows 19.03.5
+
+### Docker/Maven stuff to run application
+#### Run these statements from the command line
+mvn package
 docker build -t knewsom/ffn .
+<run any tests>
 docker-compose up -d
 docker-compose down
 docker system prune -a
