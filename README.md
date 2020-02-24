@@ -44,9 +44,7 @@ Nice to have:
 •	1 endpoint that will return the list of agents with the tasks currently assigned to them if any.
 
 ### Notes
-Running 'mvn test' from the command line may not work. I spent some time trying to get it to work on my desktop 
-and then gave up as it was taking too much time. I remember fighting these sorts of configuration issues before.
-Unit tests ran correctly in my IDE (IntelliJ).
+Running 'mvn test' from the command line may not work. 
 
 This application is not thread-safe.
 
@@ -55,6 +53,16 @@ task isn't already assigned.
 
 The unit test code should be refactored to remove duplication. 
 
+Bumped tasks are put into another collection and are reassigned when a task is completed.
+
+Most of the streams collect to a Collection but usually the filter reduces the steam to a single element. 
+This could be optimized.
+
+### Docker stuff
+docker build -t knewsom/ffn .
+docker-compose up -d
+docker-compose down
+docker system prune -a
 
 
 

@@ -1,7 +1,7 @@
 package agents;
 
 import tasks.AgentTask;
-import tasks.AgentTaskDefault;
+import tasks.AgentTask;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public interface Agent {
 
     boolean isAvailable();
 
-    AgentTaskDefault.Priority currentTaskPriority();
+    AgentTask.Priority currentTaskPriority();
 
     String getCurrentTaskID();
 

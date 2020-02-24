@@ -3,8 +3,8 @@ package distribution;
 import agents.Agent;
 import agents.AgentDefault;
 import tasks.AgentTask;
-import tasks.AgentTaskDefault;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 public class DistributorDefault implements Distributor {
 
     private List<Agent> agents = new ArrayList<>();
+
+    private List<AgentTask> bumpedTasks = new ArrayList<>();
 
     public DistributorDefault() {
         // A task that requires all three skills will be rejected as their is no agent with all three skills
@@ -44,14 +46,14 @@ public class DistributorDefault implements Distributor {
 
         // If all agents busy, look for a task to bump
         if (listOfFreeAgents.size() == 0) {
-            if (task.getPriority() == AgentTaskDefault.Priority.LOW) {
+            if (task.getPriority() == AgentTask.Priority.LOW) {
                 // Low priority task, no open agents, return error
                 return false;
             } else {
                 // High priority task, no open agents, look to see if we can bump a lower priority task
                 List<Agent> agentsWithLowerPriorityTasks = listOfQualifiedAgents.stream()
                         .filter(s->!s.isAvailable())
-                        .filter(s -> s.currentTaskPriority() == AgentTaskDefault.Priority.LOW)
+                        .filter(s -> s.currentTaskPriority() == AgentTask.Priority.LOW)
                         .collect(Collectors.toList());
                 if (agentsWithLowerPriorityTasks.size() > 0) {
                     bumpLowerPriorityTask(task);
@@ -70,12 +72,10 @@ public class DistributorDefault implements Distributor {
         // High priority task that needs to bump a low priority task
         List<Agent> agentsWithLowPriorityTasks = agents.stream()
                 .filter(s -> !s.isAvailable())
-                .filter(s -> s.currentTaskPriority() == AgentTaskDefault.Priority.LOW)
-                .sorted(Comparator.comparing(Agent::getTaskStartTime))
+                .filter(s -> s.currentTaskPriority() == AgentTask.Priority.LOW)
+                .sorted(Comparator.comparing(Agent::getTaskStartTime).reversed())
                 .collect(Collectors.toList());
         assignTaskToAgent(task, agentsWithLowPriorityTasks);
-        // We could assign bumped task to a bumped task list. One idea could be to reassign bumped tasks
-        // after a call is made to complete a task.
     }
 
     private void assignTaskToAgent(AgentTask task, List<Agent> lowPriority) {
@@ -85,6 +85,9 @@ public class DistributorDefault implements Distributor {
             String selectedAgentId = lowPriority.get(0).getAgentHandle();
             if (agentId.equals(selectedAgentId)) {
                 bumped = a.assign(task);
+                if (bumped.isPresent()) {
+                    bumpedTasks.add(bumped.get());
+                }
                 break;
             }
         }
@@ -117,13 +120,20 @@ public class DistributorDefault implements Distributor {
         return listOfAvailableAgents;
     }
 
+    // When a task is completed, we check to see if there are any bumped tasks
+    // available and then assign again, if there are.
     @Override
     public void completeTask(String taskID) {
         List<Agent> taskWithAgentToComplete = agents.stream()
                 .filter(s -> !s.isAvailable())
                 .filter(s -> s.getCurrentTaskID().equals(taskID))
                 .collect(Collectors.toList());
-        taskWithAgentToComplete.get(0).completeTask();
+        if (taskWithAgentToComplete.size() > 0) {
+            taskWithAgentToComplete.get(0).completeTask();
+            if (bumpedTasks.size() > 0) {
+                assign(bumpedTasks.remove(0));
+            }
+        }
     }
 
     @Override

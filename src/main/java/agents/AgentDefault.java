@@ -1,7 +1,7 @@
 package agents;
 
 import tasks.AgentTask;
-import tasks.AgentTaskDefault;
+import tasks.AgentTask;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -83,7 +83,7 @@ public class AgentDefault implements Agent {
     }
 
     @Override
-    public AgentTaskDefault.Priority currentTaskPriority() {
+    public AgentTask.Priority currentTaskPriority() {
         return currentTask.getPriority();
     }
 
