@@ -17,7 +17,7 @@ public class DistributorDefault implements Distributor {
     private List<AgentTask> bumpedTasks = new ArrayList<>();
 
     public DistributorDefault() {
-        // A task that requires all three skills will be rejected as their is no agent with all three skills
+        // A task that requires all three skills will be rejected as there is no agent with all three skills
         agents.add(AgentDefault.create(AgentDefault.Skills.SKILL1));
         agents.add(AgentDefault.create(AgentDefault.Skills.SKILL2));
         agents.add(AgentDefault.create(AgentDefault.Skills.SKILL3));
@@ -68,7 +68,7 @@ public class DistributorDefault implements Distributor {
         return true;
     }
 
-    private void bumpLowerPriorityTask(AgentTask task) {
+    private void bumpLowerPriorityTask(final AgentTask task) {
         // High priority task that needs to bump a low priority task
         List<Agent> agentsWithLowPriorityTasks = agents.stream()
                 .filter(s -> !s.isAvailable())
@@ -78,7 +78,7 @@ public class DistributorDefault implements Distributor {
         assignTaskToAgent(task, agentsWithLowPriorityTasks);
     }
 
-    private void assignTaskToAgent(AgentTask task, List<Agent> lowPriority) {
+    private void assignTaskToAgent(final AgentTask task, final List<Agent> lowPriority) {
         for (Agent a : agents) {
             Optional<AgentTask> bumped;
             String agentId = a.getAgentHandle();
@@ -113,7 +113,7 @@ public class DistributorDefault implements Distributor {
     }
 
     @Override
-    public List<Agent> freeAgents(List<Agent> agents) {
+    public List<Agent> freeAgents(final List<Agent> agents) {
         List<Agent> listOfAvailableAgents = agents.stream()
                 .filter(s -> s.isAvailable())
                 .collect(Collectors.toList());
@@ -123,7 +123,7 @@ public class DistributorDefault implements Distributor {
     // When a task is completed, we check to see if there are any bumped tasks
     // available and then assign again, if there are.
     @Override
-    public void completeTask(String taskID) {
+    public void completeTask(final String taskID) {
         List<Agent> taskWithAgentToComplete = agents.stream()
                 .filter(s -> !s.isAvailable())
                 .filter(s -> s.getCurrentTaskID().equals(taskID))
