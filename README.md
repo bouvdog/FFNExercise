@@ -62,17 +62,24 @@ I took a look at implementing code coverage with Jacoco but trying to get it wor
 
 ## External Build Dependencies
 Java 8 
+
 Maven 3.6.3   
+
 Docker for Windows 19.03.5 
 
 ### Docker/Maven stuff to run application
 #### Run these statements from the command line
-mvn package 
-docker build -t knewsom/ffn . 
-<run any tests> 
-docker-compose up -d 
-docker-compose down 
-docker system prune -a 
+mvn package  
+
+docker build -t knewsom/ffn .  
+
+docker-compose up -d  
+
+<run any tests>  
+
+docker-compose down  
+
+docker system prune -a  
 
 
 
