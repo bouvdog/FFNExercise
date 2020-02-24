@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: testffnchallenge.TestTaskDistributor
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.253 s <<< FAILURE! - in testffnchallenge.TestTaskDistributor
+givenTask_whenSentATaskThatNoAgentCanFulfill_thenReturnFalse  Time elapsed: 0.008 s  <<< ERROR!
+java.lang.NullPointerException
+	at testffnchallenge.TestTaskDistributor.givenTask_whenSentATaskThatNoAgentCanFulfill_thenReturnFalse(TestTaskDistributor.java:45)
+
+givenSomeAgentsBusy_whenATaskIsCompleted_thenAgentBecomesAvailable  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
+	at testffnchallenge.TestTaskDistributor.givenSomeAgentsBusy_whenATaskIsCompleted_thenAgentBecomesAvailable(TestTaskDistributor.java:208)
+

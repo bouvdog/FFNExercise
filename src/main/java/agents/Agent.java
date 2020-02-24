@@ -21,4 +21,8 @@ public interface Agent {
 
     AgentTaskDefault.Priority currentTaskPriority();
 
+    String getCurrentTaskID();
+
+    void completeTask();
+
 }

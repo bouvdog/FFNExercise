@@ -13,4 +13,8 @@ public interface Distributor {
     List<Agent> agentsThatCanHandleThisTaskMix(AgentDefault.Skills aSkill, AgentDefault.Skills... skills);
 
     List<Agent> freeAgents(List<Agent> agents);
+
+    void completeTask(String taskID);
+
+    List<Agent> snapShotOfAgentsWithTasks();
 }

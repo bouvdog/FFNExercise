@@ -11,4 +11,6 @@ public interface AgentTask {
     void setAgentId(String id);
 
     AgentTaskDefault.Priority getPriority();
+
+    String getID();
 }

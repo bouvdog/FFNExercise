@@ -35,4 +35,9 @@ public class AgentTaskDefault implements AgentTask {
         return priority;
     }
 
+    @Override
+    public String getID() {
+        return taskID;
+    }
+
 }

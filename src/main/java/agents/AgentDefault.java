@@ -59,7 +59,7 @@ public class AgentDefault implements Agent {
 
     @Override
     public String getAgentHandle() {
-        return null;
+        return id;
     }
 
     @Override
@@ -85,6 +85,16 @@ public class AgentDefault implements Agent {
     @Override
     public AgentTaskDefault.Priority currentTaskPriority() {
         return currentTask.getPriority();
+    }
+
+    @Override
+    public String getCurrentTaskID() {
+        return currentTask.getID();
+    }
+
+    @Override
+    public void completeTask() {
+        currentTask = null;
     }
 
 

@@ -42,3 +42,19 @@ Nice to have:
 •	Ability to start the application and all dependencies (database for example) with 1 command 
 (for example using docker-compose)
 •	1 endpoint that will return the list of agents with the tasks currently assigned to them if any.
+
+### Notes
+Running 'mvn test' from the command line may not work. I spent some time trying to get it to work on my desktop 
+and then gave up as it was taking too much time. I remember fighting these sorts of configuration issues before.
+Unit tests ran correctly in my IDE (IntelliJ).
+
+This application is not thread-safe.
+
+Updating a task to mark it as completed is just clearing the reference to the task from the assigned agent. NOP if the
+task isn't already assigned. 
+
+The unit test code should be refactored to remove duplication. 
+
+
+
+
